@@ -1,0 +1,55 @@
+version: '3.8'
+
+networks:
+  web:
+    external: true
+
+services:
+  traefik:
+    container_name: traefik
+    image: traefik:chevrotin
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    command:
+      - "--api"
+      - "--entrypoints.http=true"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.https=true"
+      - "--entrypoints.https.address=:443"
+      - "--entrypoints.rtmp=true"
+      - "--entrypoints.rtmp.address=:1935"
+      - "--certificatesresolvers.http.acme=true"
+       # Use staging server until we get this working
+      # - "--certificatesresolvers.http.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      - "--certificatesresolvers.http.acme.email=${EMAIL}"
+      - "--certificatesresolvers.http.acme.storage=acme.json"
+      - "--certificatesresolvers.http.acme.httpchallenge=true"
+      - "--certificatesresolvers.http.acme.httpchallenge.entrypoint=http"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.file.filename=/config.yml"
+    networks:
+      - web
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # - ./traefik.yml:/traefik.yml:ro
+      - ./config.yml:/config.yml:ro
+      - ./acme.json:/acme.json
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.routers.traefik.rule=Host(`${TRAEFIK_DOMAIN}`)"
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=${SECRET}"
+      - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
+      - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      - "traefik.http.routers.traefik-secure.entrypoints=https"
+      - "traefik.http.routers.traefik-secure.rule=Host(`${TRAEFIK_DOMAIN}`)"
+      - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
+      - "traefik.http.routers.traefik-secure.tls=true"
+      - "traefik.http.routers.traefik-secure.tls.certresolver=http"
+      - "traefik.http.routers.traefik-secure.service=api@internal"
