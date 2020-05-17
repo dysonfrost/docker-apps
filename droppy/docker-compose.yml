@@ -1,0 +1,30 @@
+version: '3.8'
+
+networks:
+  web:
+    external: true
+
+services:
+  droppy:
+    container_name: droppy
+    image: silverwind/droppy
+    restart: unless-stopped
+    ports:
+      - '8989:8989'
+    networks:
+      - web
+    volumes:
+      - ./config:/config
+      - ./files:/files
+    labels:
+      - 'traefik.enable=true'
+      - "traefik.http.routers.droppy.entrypoints=http"
+      - "traefik.http.routers.droppy.rule=Host(`${DROPPY_DOMAIN}`)"
+      - "traefik.http.routers.droppy.middlewares=https-redirect@file"
+      - "traefik.http.routers.droppy-secure.entrypoints=https"
+      - "traefik.http.routers.droppy-secure.rule=Host(`${DROPPY_DOMAIN}`)"
+      - "traefik.http.routers.droppy-secure.tls=true"
+      - "traefik.http.routers.droppy-secure.tls.certresolver=http"
+      - "traefik.http.routers.droppy-secure.service=droppy"
+      - "traefik.http.services.droppy.loadbalancer.server.port=8989"
+      - 'traefik.docker.network=web'
