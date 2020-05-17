@@ -1,0 +1,20 @@
+version: '3.8'
+
+networks:
+  web:
+    external: true
+
+services:
+  streaming:
+    container_name: streaming
+    image: nginx-rtmp
+    restart: unless-stopped
+    ports:
+    - '1935:1935'
+    networks:
+    - web
+    labels:
+    - 'traefik.enable=true'
+    - "traefik.tcp.routers.streaming.entrypoints=rtmp"
+    - "traefik.tcp.routers.streaming.rule=HostSNI(`${STREAMING_DOMAIN}`)"
+    - "traefik.tcp.services.streaming.loadbalancer.server.port=1935"
