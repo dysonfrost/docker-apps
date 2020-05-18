@@ -1,5 +1,15 @@
 # Bitwarden
 
+## Storing data
+
+All persistent data is saved under `/data`.
+In order to keep them, you have to create the following directory:
+
+```sh
+$ mkdir bw-data
+```
+
+
 ## Registration of new users
 
 By default, anyone who can access your instance can register for a new account. To disable this, set the `SIGNUPS_ALLOWED` env variable to `false`.
