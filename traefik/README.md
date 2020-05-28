@@ -61,3 +61,17 @@ To run a container using docker-compose, execute the following command:
 ```sh
 $ docker-compose up -d
 ```
+
+## Updating info
+
+Below are the instructions for updating containers via Docker Compose.
+
+- Update all images: `docker-compose pull`
+  - or update a single image: `docker-compose pull traefik`
+
+- Let compose update all containers as necessary: `docker-compose up -d`
+  - or update a single container: `docker-compose up -d 
+  traefik`
+- You can also remove the old dangling images: `docker image prune`
+
+Please be careful, as changes in the event of a major version update could break your current configuration.

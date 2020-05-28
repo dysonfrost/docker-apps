@@ -70,3 +70,5 @@ Below are the instructions for updating containers via Docker Compose.
   - or update a single container: `docker-compose up -d 
   calibre-web`
 - You can also remove the old dangling images: `docker image prune`
+
+Please be careful, as changes in the event of a major version update could break your current configuration.
