@@ -7,10 +7,11 @@ networks:
 services:
   streaming:
     container_name: streaming
-    image: nginx-rtmp
+    image: nginx-rtmp-hls
     restart: unless-stopped
     ports:
     - '1935:1935'
+    - '8080:8080'
     networks:
     - web
     labels:
@@ -18,3 +19,12 @@ services:
     - "traefik.tcp.routers.streaming.entrypoints=rtmp"
     - "traefik.tcp.routers.streaming.rule=HostSNI(`${STREAMING_DOMAIN}`)"
     - "traefik.tcp.services.streaming.loadbalancer.server.port=1935"
+    - "traefik.http.routers.streaming.entrypoints=http"
+    - "traefik.http.routers.streaming.rule=Host(`${STREAMING_DOMAIN}`)"
+    - "traefik.http.routers.streaming.middlewares=https-redirect@file"
+    - "traefik.http.routers.streaming-secure.entrypoints=https"
+    - "traefik.http.routers.streaming-secure.rule=Host(`${STREAMING_DOMAIN}`)"
+    - "traefik.http.routers.streaming-secure.tls=true"
+    - "traefik.http.routers.streaming-secure.tls.certresolver=http"
+    - "traefik.http.routers.streaming-secure.service=streaming"
+    - "traefik.http.services.streaming.loadbalancer.server.port=8080"
