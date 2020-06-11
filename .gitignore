@@ -14,6 +14,7 @@
 
 ### Subdirectories ###
 */*/
+!/nginx-rtmp/players
 
 ### ACME Provider
 **/acme.json
