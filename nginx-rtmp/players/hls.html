@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <meta charset="UTF-8">
+    <style>
+      body {
+        background-color:#121212;
+      }
+      
+      h1 {
+        color: #676767;
+        text-align: center;
+      }
+      .centered {
+        left: 50%;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+    </style>
+		<title>HLS Live</title>
+		<link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet">
+		<script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+	</head>
+	<body>
+    <h1>HLS Player</h1>
+    <div class="centered">
+		  <video id="player" class="video-js vjs-default-skin" width="1200" controls preload="auto">
+			  <source src="https://${STREAMING_DOMAIN}/hls/${HLS_KEY}.m3u8" type="application/x-mpegURL" />
+      </video>
+    </div>
+		<script>
+			var player = videojs('#player');
+		</script>
+	</body>
+	
+</html>
