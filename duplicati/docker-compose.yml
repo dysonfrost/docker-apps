@@ -1,0 +1,34 @@
+version: '3.8'
+
+networks:
+  web:
+    external: true
+
+services:
+  duplicati:
+    container_name: duplicati
+    image: ghcr.io/linuxserver/duplicati
+    restart: unless-stopped
+    ports:
+      - '8200:8200'
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=Europe/Paris
+    networks:
+      - web
+    volumes:
+      - ./config:/config
+      - ..:/source
+    labels:
+      - 'traefik.enable=true'
+      - "traefik.http.routers.duplicati.entrypoints=http"
+      - "traefik.http.routers.duplicati.rule=Host(`${DUPLICATI_DOMAIN}`)"
+      - "traefik.http.routers.duplicati.middlewares=https-redirect@file"
+      - "traefik.http.routers.duplicati-secure.entrypoints=https"
+      - "traefik.http.routers.duplicati-secure.rule=Host(`${DUPLICATI_DOMAIN}`)"
+      - "traefik.http.routers.duplicati-secure.tls=true"
+      - "traefik.http.routers.duplicati-secure.tls.certresolver=http"
+      - "traefik.http.routers.duplicati-secure.service=duplicati"
+      - "traefik.http.services.duplicati.loadbalancer.server.port=8200"
+      - 'traefik.docker.network=web'
