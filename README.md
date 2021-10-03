@@ -4,7 +4,7 @@ This repository lists Docker containers I’ve created to run some popular appli
 
 ## Applications
 
-- [bitwarden_rs](https://github.com/dani-garcia/bitwarden_rs) - A lightweight version written in rust of bitwarden, a password manager with webapp, browser extension, and mobile app.
+- [vaultwarden](https://github.com/dani-garcia/vaultwarden) - A lightweight version written in rust of bitwarden, a password manager with webapp, browser extension, and mobile app.
 - [calibre-web](https://github.com/linuxserver/docker-calibre-web) - Calibre-web is a web app providing a clean interface for browsing, reading and downloading eBooks using an existing Calibre database.
 - [droppy](https://github.com/silverwind/droppy) - Droppy is a self-hosted cloud server with an interface similar to desktop file managers and has capabilities to edit files on-the-fly as well as view and playback media directly in the browser.
 - [duplicati](https://github.com/duplicati/duplicati) - Duplicati is a free, open source, backup client that securely stores encrypted incremental, compressed backups on cloud storage services and remote file servers.

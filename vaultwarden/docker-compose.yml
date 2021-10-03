@@ -1,0 +1,33 @@
+version: '3.8'
+
+networks:
+  web:
+    external: true
+
+services:
+  vaultwarden:
+    container_name: vaultwarden
+    image: vaultwarden/server
+    restart: unless-stopped
+    networks:
+      - web
+    expose: 
+    - 80
+    volumes:
+    - ./vw-data/:/data/ 
+    environment:
+    - WEBSOCKET_ENABLED=true  # Enable WebSocket notifications.
+    - SIGNUPS_ALLOWED=false
+    - DOMAIN=https://${VAULTWARDEN_DOMAIN}
+    labels:
+    - 'traefik.enable=true'
+    - "traefik.http.routers.vaultwarden.entrypoints=http"
+    - "traefik.http.routers.vaultwarden.rule=Host(`${VAULTWARDEN_DOMAIN}`)"
+    - "traefik.http.routers.vaultwarden.middlewares=https-redirect@file"
+    - "traefik.http.routers.vaultwarden-secure.entrypoints=https"
+    - "traefik.http.routers.vaultwarden-secure.rule=Host(`${VAULTWARDEN_DOMAIN}`)"
+    - "traefik.http.routers.vaultwarden-secure.tls=true"
+    - "traefik.http.routers.vaultwarden-secure.tls.certresolver=http"
+    - "traefik.http.routers.vaultwarden-secure.service=vaultwarden"
+    - "traefik.http.services.vaultwarden.loadbalancer.server.port=80"
+    - 'traefik.docker.network=web'

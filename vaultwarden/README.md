@@ -1,4 +1,4 @@
-# Bitwarden
+# Vaultwarden
 
 ## Storing data
 
@@ -6,7 +6,7 @@ All persistent data is saved under `/data`.
 In order to keep them, you have to create the following directory:
 
 ```sh
-$ mkdir bw-data
+$ mkdir vw-data
 ```
 
 
@@ -23,7 +23,7 @@ environment:
 
 Create your admin user, then don't forget to reset this variable to `false` and finally restart your container.
 
-*NOTE: You can also configure bitwarden_rs to send user invitation emails via a SMTP agent, please refer to the [bitwarden_rs wiki](https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration) for more information.*
+*NOTE: You can also configure vaultwarden to send user invitation emails via a SMTP agent, please refer to the [vaultwarden wiki](https://github.com/dani-garcia/vaultwarden/wiki/SMTP-configuration) for more information.*
 
 ## Dotenv
 
@@ -31,7 +31,7 @@ Please use the following environment variables:
 
 ```sh
 $ cat .env
-BITWARDEN_DOMAIN=bitwarden.example.com
+VAULTWARDEN_DOMAIN=vaultwarden.example.com
 ```
 
 ## Run your container
@@ -47,11 +47,10 @@ $ docker-compose up -d
 Below are the instructions for updating containers via Docker Compose.
 
 - Update all images: `docker-compose pull`
-  - or update a single image: `docker-compose pull bitwarden`
+  - or update a single image: `docker-compose pull vaultwarden`
 
 - Let compose update all containers as necessary: `docker-compose up -d`
-  - or update a single container: `docker-compose up -d 
-  bitwarden`
+  - or update a single container: `docker-compose up -d vaultwarden`
 - You can also remove the old dangling images: `docker image prune`
 
 Please be careful, as changes in the event of a major version update could break your current configuration.
