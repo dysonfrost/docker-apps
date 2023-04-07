@@ -3,31 +3,45 @@
 	<head>
     <meta charset="UTF-8">
     <style>
-      body {
+      html, body {
         background-color:#121212;
+        margin: 0px;
+        height: 100%;
       }
       
       h1 {
         color: #676767;
         text-align: center;
       }
-      .centered {
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
+      .stream {
+        float: left;
+        height: 99%;
+        width: 82%;
+      }
+
+      .chat {
+        float: right;
+        height: 99%;
+        width: 18%;
       }
     </style>
 		<title>HLS Live</title>
-		<link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet">
-		<script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
+		<link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
+		<script src="https://vjs.zencdn.net/8.0.4/video.js"></script>
 	</head>
 	<body>
-    <h1>HLS Player</h1>
-    <div class="centered">
-		  <video id="player" class="video-js vjs-default-skin" width="1200" controls preload="auto">
+    <div class="stream">
+		  <video id="player" class="video-js vjs-default-skin" fill="true" controls preload="auto">
 			  <source src="https://${STREAMING_DOMAIN}/hls/${HLS_KEY}.m3u8" type="application/x-mpegURL" />
       </video>
+    </div>
+    <div class="chat">
+      <iframe id="twitch-chat-embed"
+        frameborder="0"
+        src="https://www.twitch.tv/embed/${TWITCH_USERNAME}/chat?darkpopout&parent=${STREAMING_DOMAIN}"
+        height="100%"
+        width="100%">
+      </iframe>
     </div>
 		<script>
 			var player = videojs('#player');

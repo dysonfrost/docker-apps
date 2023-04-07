@@ -48,6 +48,8 @@ Please use the following environment variables:
 ```sh
 $ cat .env
 STREAMING_DOMAIN=streaming.example.com
+HLS_KEY=customkey
+TWITCH_USERNAME=amouranth
 PUBLIC_IP=1.2.3.4
 ```
 ## Run your container
