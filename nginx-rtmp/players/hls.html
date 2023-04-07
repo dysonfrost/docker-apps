@@ -1,37 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-    <meta charset="UTF-8">
-    <style>
-      body {
-        background-color:#121212;
-      }
-      
-      h1 {
-        color: #676767;
-        text-align: center;
-      }
-      .centered {
-        left: 50%;
-        position: absolute;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      }
-    </style>
-		<title>HLS Live</title>
-		<link href="https://vjs.zencdn.net/7.5.5/video-js.css" rel="stylesheet">
-		<script src="https://vjs.zencdn.net/7.5.5/video.js"></script>
-	</head>
-	<body>
-    <h1>HLS Player</h1>
-    <div class="centered">
-		  <video id="player" class="video-js vjs-default-skin" width="1200" controls preload="auto">
-			  <source src="https://${STREAMING_DOMAIN}/hls/${HLS_KEY}.m3u8" type="application/x-mpegURL" />
-      </video>
-    </div>
-		<script>
-			var player = videojs('#player');
-		</script>
-	</body>
-	
+
+<head>
+  <meta charset="UTF-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-wrap: wrap;
+      height: 100vh;
+    }
+
+    .stream {
+      flex: 4.12;
+      height: 100%;
+      background-color: black;
+    }
+
+    .chat {
+      flex: 0.88;
+      height: 100%;
+      background-color: black;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+  </style>
+  <title>HLS Player</title>
+  <link href="https://vjs.zencdn.net/8.0.4/video-js.css" rel="stylesheet">
+  <script src="https://vjs.zencdn.net/8.0.4/video.js"></script>
+</head>
+
+<body>
+  <div class="stream">
+    <video id="player" class="video-js vjs-default-skin" fill="true" controls preload="auto">
+      <source src="https://${STREAMING_DOMAIN}/hls/${HLS_KEY}.m3u8" type="application/x-mpegURL" />
+    </video>
+  </div>
+  <div class="chat">
+    <iframe id="twitch-chat-embed"
+      src="https://www.twitch.tv/embed/${TWITCH_USERNAME}/chat?darkpopout&parent=${STREAMING_DOMAIN}" frameborder="0"
+      scrolling="no" height="100%" width="100%">
+    </iframe>
+  </div>
+  <script>
+    var player = videojs('#player');
+  </script>
+</body>
+
 </html>
